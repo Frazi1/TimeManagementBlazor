@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeManagement", "TimeManagement\TimeManagement.csproj", "{D1626B33-5ADA-4C0A-A265-A15995AA8179}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{3460B142-E565-4B68-87CB-E2396F8826E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1626B33-5ADA-4C0A-A265-A15995AA8179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1626B33-5ADA-4C0A-A265-A15995AA8179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1626B33-5ADA-4C0A-A265-A15995AA8179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1626B33-5ADA-4C0A-A265-A15995AA8179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3460B142-E565-4B68-87CB-E2396F8826E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3460B142-E565-4B68-87CB-E2396F8826E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3460B142-E565-4B68-87CB-E2396F8826E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3460B142-E565-4B68-87CB-E2396F8826E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

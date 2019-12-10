@@ -1,0 +1,54 @@
+@page "/tasks"
+
+@using Models
+@using Services
+@inject TaskService TaskService;
+
+<h1>My tasks</h1>
+<div>
+    <div>
+        <input type="text" @bind="@NewTask.Name" />
+        <button @onclick="AddTask">Add Task</button>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Task</th>
+            <th>Time spent</th>
+            <th>Completed</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var task in AllTasks)
+        {
+            <tr>
+                <td>@task.Name</td>
+                <td>@task.TimeSpent></td>
+                <td>
+                    <input type="checkbox" @bind="@task.IsCompleted"/>
+               </td>
+            </tr>
+        }
+       </tbody>
+    </table>
+</div>
+
+@code
+{
+    TaskDto NewTask = new TaskDto();
+    List<TaskDto> AllTasks;
+
+   protected override async Task OnInitializedAsync()
+   {
+       AllTasks = await TaskService.GetAllTasksAsync();
+   }
+
+    private async Task AddTask()
+    {
+        await TaskService.AddTask(NewTask);
+        AllTasks.Add(NewTask);
+        NewTask = new TaskDto();
+//        await OnInitializedAsync();
+    }
+
+}
