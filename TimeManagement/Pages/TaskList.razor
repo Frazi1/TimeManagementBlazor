@@ -25,7 +25,10 @@
                 <td>@task.Name</td>
                 <td>@task.TimeSpent></td>
                 <td>
-                    <input type="checkbox" @bind="@task.IsCompleted"/>
+                    <input type="checkbox" @value="@task.IsCompleted"/>
+               </td>
+               <td>
+                   <button @onclick="(() => DeleteTask(task))">Delete</button>
                </td>
             </tr>
         }
@@ -48,7 +51,20 @@
         await TaskService.AddTask(NewTask);
         AllTasks.Add(NewTask);
         NewTask = new TaskDto();
-//        await OnInitializedAsync();
     }
 
+    private async Task DeleteTask(TaskDto task)
+    {
+        AllTasks.Remove(task);
+
+        Console.WriteLine($"Delete task: {task.Id}");
+        await TaskService.DeleteTask(task.Id);
+    }
+
+    private async Task UpdateTask(TaskDto task)
+    {
+        TaskDto updated = await TaskService.UpdateTask(task);
+        int taskIndex = AllTasks.IndexOf(task);
+        AllTasks[taskIndex] = updated;
+    }
 }

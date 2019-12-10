@@ -35,12 +35,12 @@ namespace TimeManagement
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddTransient<TaskService>();
-            services.AddDbContextPool<TimeManagementDbContext>(opt =>
+            services.AddDbContext<TimeManagementDbContext>(opt =>
             {
                 opt.UseMySql("Server=localhost;Database=timemanagement;User=root;Password=1234;",
                     mySqlOptions =>
                         mySqlOptions.ServerVersion(new ServerVersion(new Version(5, 7, 18), ServerType.MySql)));
-            });
+            }, ServiceLifetime.Transient);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

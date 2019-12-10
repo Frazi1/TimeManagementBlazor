@@ -30,21 +30,27 @@ namespace Services
             })
             .ToList();
 
-        public async Task<List<TaskDto>> GetAllTasksAsync()
+        private TaskDto ToTaskDto(DbTask dbTask)
         {
-            return DbContext.Tasks
-                .Select(dbTask => new TaskDto
-                {
+            return new TaskDto
+            {
                     Id = dbTask.Id,
                     Name = dbTask.Name,
                     CreatedAt = dbTask.CreatedAt,
                     IsCompleted = dbTask.IsCompleted,
                     TimeSpent = dbTask.TimeSpent
-                })
-                .ToList();
+            };
         }
 
-        public async Task AddTask(TaskDto dto)
+        public Task<List<TaskDto>> GetAllTasksAsync()
+        {
+            List<TaskDto> list = DbContext.Tasks
+                .Select(ToTaskDto)
+                .ToList();
+            return Task.FromResult(list);
+        }
+
+        public Task AddTask(TaskDto dto)
         {
             var dbTask = new DbTask
             {
@@ -54,8 +60,35 @@ namespace Services
                 TimeSpent = dto.TimeSpent
             };
 
-            await DbContext.Tasks.AddAsync(dbTask);
-            await DbContext.SaveChangesAsync();
+            DbContext.Tasks.Add(dbTask);
+            DbContext.SaveChanges();
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteTask(int id)
+        {
+            DbTask dbTask = FindTaskById(id);
+            DbContext.Remove(dbTask);
+            DbContext.SaveChanges();
+            return Task.CompletedTask;
+        }
+
+        private DbTask FindTaskById(int id)
+        {
+            return DbContext.Tasks.First(t => t.Id == id);
+        }
+
+        public Task<TaskDto> UpdateTask(TaskDto dto)
+        {
+            var dbTask = FindTaskById(dto.Id);
+
+            dbTask.IsCompleted = dto.IsCompleted;
+            dbTask.Name = dto.Name;
+            dbTask.TimeSpent = dto.TimeSpent;
+
+            DbContext.SaveChanges();
+
+            return Task.FromResult(ToTaskDto(dbTask));
         }
     }
 }
