@@ -50,7 +50,7 @@ namespace Services
             return Task.FromResult(list);
         }
 
-        public Task AddTask(TaskDto dto)
+        public Task<TaskDto> AddTask(TaskDto dto)
         {
             var dbTask = new DbTask
             {
@@ -62,7 +62,7 @@ namespace Services
 
             DbContext.Tasks.Add(dbTask);
             DbContext.SaveChanges();
-            return Task.CompletedTask;
+            return Task.FromResult(ToTaskDto(dbTask));
         }
 
         public Task DeleteTask(int id)

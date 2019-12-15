@@ -9,6 +9,7 @@ namespace DataAccess
 
         public TimeManagementDbContext(DbContextOptions options) : base(options)
         {
+            Console.WriteLine("Create db context");
             Database.EnsureCreated();
         }
     }

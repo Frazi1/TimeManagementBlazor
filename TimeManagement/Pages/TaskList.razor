@@ -2,7 +2,7 @@
 
 @using Models
 @using Services
-@inject TaskService TaskService;
+@inherits OwningComponentBase
 
 <h1>My tasks</h1>
 <div>
@@ -23,7 +23,7 @@
         {
             <tr>
                 <td>@task.Name</td>
-                <td>@task.TimeSpent></td>
+                <td>@task.TimeSpent</td>
                 <td>
                     <input type="checkbox" @value="@task.IsCompleted"/>
                </td>
@@ -41,15 +41,20 @@
     TaskDto NewTask = new TaskDto();
     List<TaskDto> AllTasks;
 
-   protected override async Task OnInitializedAsync()
-   {
+    private TaskService TaskService => (TaskService) ScopedServices.GetService(typeof(TaskService));
+
+
+    protected override async Task OnInitializedAsync()
+    {
        AllTasks = await TaskService.GetAllTasksAsync();
-   }
+    }
 
     private async Task AddTask()
     {
-        await TaskService.AddTask(NewTask);
-        AllTasks.Add(NewTask);
+        NewTask.TimeSpent = TimeSpan.FromHours(new Random().Next(1,5));
+        var createdTask = await TaskService.AddTask(NewTask);
+        AllTasks.Add(createdTask);
+
         NewTask = new TaskDto();
     }
 
