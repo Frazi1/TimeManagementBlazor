@@ -23,6 +23,7 @@ namespace TimeManagement.Controlllers
         [HttpPost]
         public async Task<TaskDto> AddTask(TaskDto dto) => await taskService.AddTask(dto);
 
+        [Route("{id}")]
         [HttpDelete]
         public async Task DeleteTask(int id) => await taskService.DeleteTask(id);
 

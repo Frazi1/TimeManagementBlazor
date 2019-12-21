@@ -2,12 +2,18 @@
 @inherits OwningComponentBase
 
 <h1>My tasks</h1>
-<div>
+ <div>
     <div>
         <input type="text" @bind="@NewTask.Name" />
         <button @onclick="AddTask">Add Task</button>
     </div>
-    <table>
+    @if(AllTasks  == null)
+    {
+        <span>Loading...</span>
+    }
+    else
+    {
+     <table>
         <thead>
         <tr>
             <th>Task</th>
@@ -30,7 +36,8 @@
             </tr>
         }
        </tbody>
-    </table>
+    </table>   
+    }
 </div>
 
 @code

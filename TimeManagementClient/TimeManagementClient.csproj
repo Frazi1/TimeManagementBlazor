@@ -10,10 +10,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.1.0-preview3.19555.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.1.0-preview3.19555.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.1.0-preview3.19555.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\SharedComponents\SharedComponents.csproj" />
   </ItemGroup>
 
 </Project>

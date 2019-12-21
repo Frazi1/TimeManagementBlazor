@@ -24,7 +24,9 @@ namespace TimeManagement
                 {
                     webBuilder
                         .UseSetting(WebHostDefaults.DetailedErrorsKey, "true")
-                    .UseStartup<Startup>();
+                        .UseUrls("http://localhost:6000/", "https://localhost:6001/")
+                        .UseStartup<Startup>()
+                        ;
                 });
     }
 }
