@@ -31,6 +31,7 @@ namespace TimeManagement
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
@@ -41,6 +42,10 @@ namespace TimeManagement
                     mySqlOptions =>
                         mySqlOptions.ServerVersion(new ServerVersion(new Version(5, 7, 18), ServerType.MySql)));
             }, ServiceLifetime.Transient);
+
+            // services.AddMvc()
+            //         .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,9 +69,12 @@ namespace TimeManagement
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+
+            app.UseMvcControllersConfiguration();
         }
     }
 }
