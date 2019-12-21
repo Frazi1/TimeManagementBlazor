@@ -7,7 +7,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace Domain
 {
-    public class TaskService
+    public class TaskService : ITaskService
     {
         protected TimeManagementDbContext DbContext { get; }
 

@@ -34,7 +34,7 @@ namespace TimeManagement
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            services.AddTransient<TaskService>();
+            services.AddTransient<ITaskService, TaskService>();
             services.AddDbContext<TimeManagementDbContext>(opt =>
             {
                 opt.UseMySql("Server=localhost;Database=timemanagement;User=root;Password=1234;",

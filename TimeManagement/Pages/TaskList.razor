@@ -40,7 +40,7 @@
     TaskDto NewTask = new TaskDto();
     List<TaskDto> AllTasks;
 
-    private TaskService TaskService => (TaskService) ScopedServices.GetService(typeof(TaskService));
+    private ITaskService TaskService => (ITaskService) ScopedServices.GetService(typeof(ITaskService));
 
 
     protected override async Task OnInitializedAsync()
