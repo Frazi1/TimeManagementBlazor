@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
-using Microsoft.EntityFrameworkCore;
-using Models;
 using Task = System.Threading.Tasks.Task;
 
-namespace Services
+namespace Domain
 {
     public class TaskService
     {

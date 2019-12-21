@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Models
+namespace Domain
 {
     public class TaskDto
     {
