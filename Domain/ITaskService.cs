@@ -9,5 +9,6 @@ namespace Domain
         Task<TaskDto> AddTask(TaskDto dto);
         Task DeleteTask(int id);
         Task<TaskDto> UpdateTask(TaskDto dto);
+        Task<PagedList<TaskDto>> GetTasksAsync(Filter filter);
     }
 }

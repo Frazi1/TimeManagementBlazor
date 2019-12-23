@@ -1,0 +1,48 @@
+<div>
+@foreach (int pageNumber in DisplayPages)
+{
+    <span @onclick="(() => SetCurrentPage(pageNumber))"
+          class="@(CurrentPage == pageNumber ? "font-weight-bold" : "")">
+        @pageNumber
+    </span>
+    @if (pageNumber != DisplayPages.Last())
+    {
+        <span>,</span>
+    }
+}
+</div>
+
+@code {
+    private const int MinPage = 1;
+    private const int DisplayPagesNumber = 10;
+
+    [Parameter]
+    public int Count { get; set; }
+
+    [Parameter]
+    public int PageSize { get; set; }
+
+    private int _currentPage = MinPage;
+    
+    [Parameter]
+    public int CurrentPage
+    {
+        get => _currentPage;
+        set
+        {
+            _currentPage = value;
+            OnPageChange.InvokeAsync(value);
+        } 
+    }
+
+    [Parameter]
+    public EventCallback<int> OnPageChange { get; set; }
+
+    public int PagesCount => (int) Math.Ceiling((double) Count / PageSize);
+
+    private IEnumerable<int> DisplayPages => Enumerable.Range(
+        Math.Max(MinPage, CurrentPage - DisplayPagesNumber),
+        Math.Min(PagesCount, CurrentPage + DisplayPagesNumber));
+
+    private void SetCurrentPage(int page) => CurrentPage = page;
+}

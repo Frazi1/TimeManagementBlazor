@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
+using Microsoft.EntityFrameworkCore;
 using Task = System.Threading.Tasks.Task;
 
 namespace Domain
@@ -16,19 +17,7 @@ namespace Domain
             DbContext = dbContext;
         }
 
-        private List<TaskDto> _tasks = Enumerable
-            .Range(1, 10)
-            .Select(i => new TaskDto
-            {
-                Id = i,
-                Name = $"Task {i}",
-                CreatedAt = DateTime.UtcNow.Subtract(TimeSpan.FromHours(i)),
-                IsCompleted = i % 2 == 0,
-                TimeSpent = TimeSpan.FromHours(i)
-            })
-            .ToList();
-
-        private TaskDto ToTaskDto(DbTask dbTask)
+        private static TaskDto ToTaskDto(DbTask dbTask)
         {
             return new TaskDto
             {
@@ -46,6 +35,18 @@ namespace Domain
                 .Select(ToTaskDto)
                 .ToList();
             return Task.FromResult(list);
+        }
+
+        public async Task<PagedList<TaskDto>> GetTasksAsync(Filter filter)
+        {
+            var dbList = await DbContext.Tasks
+                .ApplyPagination(filter)
+                .ToListAsync();
+            var dtoList = dbList.Select(ToTaskDto).ToList();
+
+            int allItemsCount = await DbContext.Tasks.CountAsync();
+            
+            return new PagedList<TaskDto>(allItemsCount, dtoList);
         }
 
         public Task<TaskDto> AddTask(TaskDto dto)

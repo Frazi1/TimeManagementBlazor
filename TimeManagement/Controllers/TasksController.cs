@@ -20,6 +20,10 @@ namespace TimeManagement.Controlllers
         [HttpGet]
         public async Task<List<TaskDto>> Get() => await taskService.GetAllTasksAsync();
 
+        [HttpGet("filter")]
+        public async Task<PagedList<TaskDto>> Get([ModelBinder(typeof(FilterModelBinder))] Filter filter)
+            => await taskService.GetTasksAsync(filter);
+
         [HttpPost]
         public async Task<TaskDto> AddTask(TaskDto dto) => await taskService.AddTask(dto);
 

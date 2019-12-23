@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Domain;
 using Microsoft.AspNetCore.Components;
 
@@ -27,5 +26,11 @@ namespace TimeManagementClient
 
         public async Task<TaskDto> UpdateTask(TaskDto dto)
             => await _httpClient.PutJsonAsync<TaskDto>("tasks", dto);
+
+        public async Task<PagedList<TaskDto>> GetTasksAsync(Filter filter)
+        {
+            string uri = $"tasks/filter?skip={filter.Skip.ToString()}&take={filter.Take.ToString()}";
+            return await _httpClient.GetJsonAsync<PagedList<TaskDto>>(uri);
+        }
     }
 }
