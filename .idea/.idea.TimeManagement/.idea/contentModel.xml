@@ -1,29 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\diman\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\diman\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_TimeManagement.-2028528246.00" t="ExcludeRecursive" />
-    <e p="G:\_Projects\TimeManagement" t="IncludeFlat">
+    <e p="C:\Users\diman\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\diman\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_TimeManagement.1256895495.00" t="ExcludeRecursive" />
+    <e p="D:\Programming\TimeManagementBlazor" t="IncludeFlat">
       <e p="DataAccess" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="DataAccess.csproj" t="IncludeRecursive" />
         <e p="DbTask.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp3.0" t="Include">
+            <e p="netstandard2.0" t="Include">
               <e p="DataAccess.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
         <e p="TimeManagementDbContext.cs" t="Include" />
       </e>
+      <e p="Domain" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Domain.csproj" t="IncludeRecursive" />
+        <e p="Filter.cs" t="Include" />
+        <e p="ITaskService.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="PagedList.cs" t="Include" />
+        <e p="QueryableExtensions.cs" t="Include" />
+        <e p="TaskDto.cs" t="Include" />
+        <e p="TaskService.cs" t="Include" />
+      </e>
       <e p="packages" t="ExcludeRecursive" />
+      <e p="SharedComponents" t="IncludeRecursive">
+        <e p="_Imports.razor" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ExampleJsInterop.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="SharedComponents.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Pager.razor" t="Include" />
+        <e p="SharedComponents.csproj" t="IncludeRecursive" />
+        <e p="TaskList.razor" t="Include" />
+        <e p="wwwroot" t="Include">
+          <e p="background.png" t="Include" />
+          <e p="exampleJsInterop.js" t="Include" />
+          <e p="styles.css" t="Include" />
+        </e>
+      </e>
       <e p="TimeManagement" t="IncludeRecursive">
         <e p="_Imports.razor" t="Include" />
         <e p="App.razor" t="Include" />
         <e p="appsettings.Development.json" t="Include" />
         <e p="appsettings.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Controllers" t="Include">
+          <e p="FilterModelBinder.cs" t="Include" />
+          <e p="TasksController.cs" t="Include" />
+        </e>
         <e p="Data" t="Include">
           <e p="WeatherForecast.cs" t="Include" />
           <e p="WeatherForecastService.cs" t="Include" />
@@ -32,6 +73,7 @@
           <e p="Debug" t="Include">
             <e p="netcoreapp3.0" t="Include">
               <e p="TimeManagement.AssemblyInfo.cs" t="Include" />
+              <e p="TimeManagement.RazorAssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
@@ -41,7 +83,7 @@
           <e p="Error.razor" t="Include" />
           <e p="FetchData.razor" t="Include" />
           <e p="Index.razor" t="Include" />
-          <e p="TaskList.razor" t="Include" />
+          <e p="TaskListPage.razor" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
@@ -52,8 +94,7 @@
           <e p="NavMenu.razor" t="Include" />
         </e>
         <e p="Startup.cs" t="Include" />
-        <e p="TaskDto.cs" t="Include" />
-        <e p="TaskService.cs" t="Include" />
+        <e p="StartupExtensions.cs" t="Include" />
         <e p="TimeManagement.csproj" t="IncludeRecursive" />
         <e p="wwwroot" t="Include">
           <e p="css" t="Include">
@@ -84,6 +125,63 @@
         </e>
       </e>
       <e p="TimeManagement.sln" t="IncludeFlat" />
+      <e p="TimeManagementClient" t="IncludeRecursive">
+        <e p="_Imports.razor" t="Include" />
+        <e p="App.razor" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="TimeManagementClient.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Pages" t="Include">
+          <e p="Counter.razor" t="Include" />
+          <e p="FetchData.razor" t="Include" />
+          <e p="Index.razor" t="Include" />
+          <e p="Tasks.razor" t="Include" />
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Shared" t="Include">
+          <e p="MainLayout.razor" t="Include" />
+          <e p="NavMenu.razor" t="Include" />
+          <e p="SurveyPrompt.razor" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+        <e p="TasksService.cs" t="Include" />
+        <e p="TimeManagementClient.csproj" t="IncludeRecursive" />
+        <e p="wwwroot" t="Include">
+          <e p="css" t="Include">
+            <e p="bootstrap" t="Include">
+              <e p="bootstrap.min.css" t="Include" />
+              <e p="bootstrap.min.css.map" t="Include" />
+            </e>
+            <e p="open-iconic" t="Include">
+              <e p="font" t="Include">
+                <e p="css" t="Include">
+                  <e p="open-iconic-bootstrap.min.css" t="Include" />
+                </e>
+                <e p="fonts" t="Include">
+                  <e p="open-iconic.eot" t="Include" />
+                  <e p="open-iconic.otf" t="Include" />
+                  <e p="open-iconic.svg" t="Include" />
+                  <e p="open-iconic.ttf" t="Include" />
+                  <e p="open-iconic.woff" t="Include" />
+                </e>
+              </e>
+              <e p="FONT-LICENSE" t="Include" />
+              <e p="ICON-LICENSE" t="Include" />
+              <e p="README.md" t="Include" />
+            </e>
+            <e p="site.css" t="Include" />
+          </e>
+          <e p="index.html" t="Include" />
+          <e p="sample-data" t="Include">
+            <e p="weather.json" t="Include" />
+          </e>
+        </e>
+      </e>
     </e>
   </component>
   <component name="RiderRiderContentModelStore">
