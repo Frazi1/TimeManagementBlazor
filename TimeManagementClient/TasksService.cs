@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Domain;
@@ -15,16 +14,13 @@ namespace TimeManagementClient
             _httpClient = httpClient;
         }
 
-        public async Task<List<TaskDto>> GetAllTasksAsync()
-            => await _httpClient.GetJsonAsync<List<TaskDto>>("tasks");
-
-        public async Task<TaskDto> AddTask(TaskDto dto)
+        public async Task<TaskDto> AddTaskAsync(TaskDto dto)
             => await _httpClient.PostJsonAsync<TaskDto>("tasks", dto);
 
-        public async Task DeleteTask(int id)
+        public async Task DeleteTaskAsync(int id)
             => await _httpClient.DeleteAsync($"tasks/{id}");
 
-        public async Task<TaskDto> UpdateTask(TaskDto dto)
+        public async Task<TaskDto> UpdateTaskAsync(TaskDto dto)
             => await _httpClient.PutJsonAsync<TaskDto>("tasks", dto);
 
         public async Task<PagedList<TaskDto>> GetTasksAsync(Filter filter)

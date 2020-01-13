@@ -1,13 +1,15 @@
+@using System
+@using System.Threading.Tasks
 @using Domain
-@inherits OwningComponentBase
+@inherits Microsoft.AspNetCore.Components.OwningComponentBase
 
 <h1>My tasks</h1>
 <div>
     <div>
-        <input type="text" @bind="@NewTask.Name"/>
+        <input type="text" @bind="@_newTask.Name"/>
         <button @onclick="AddTask">Add Task</button>
     </div>
-    @if (AllTasks == null)
+    @if (_allTasks == null)
     {
         <span>Loading...</span>
     }
@@ -22,7 +24,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var task in AllTasks.Items)
+            @foreach (var task in _allTasks.Items)
             {
                 <tr>
                     <td>@task.Name</td>
@@ -31,23 +33,22 @@
                         <input type="checkbox" @value="@task.IsCompleted"/>
                     </td>
                     <td>
-                        <button @onclick="(() => DeleteTask(task))">Delete</button>
+                        <button @onclick="(async () => await DeleteTask(task))">Delete</button>
                     </td>
                 </tr>
             }
             </tbody>
         </table>
-        <Pager Count="@AllTasks.AllItemsCount" PageSize="@_pageSize" OnPageChange="(async page => await OnPageChange(page))" />
+        <Pager Count="@_allTasks.AllItemsCount" PageSize="@_pageSize" OnPageChange="(async page => await OnPageChange(page))" />
     }
 </div>
 
 @code
 {
-    TaskDto NewTask = new TaskDto();
-    private PagedList<TaskDto> AllTasks;
+    private TaskDto _newTask = new TaskDto();
+    private PagedList<TaskDto> _allTasks;
     private int _currentPage = 1;
     private int _pageSize = 5;
-    
 
     private ITaskService TaskService => (ITaskService) ScopedServices.GetService(typeof(ITaskService));
 
@@ -57,26 +58,26 @@
     }
 
     private Filter CreateFilter() => new Filter((_currentPage - 1) * _pageSize, _pageSize);
-    private async Task LoadCurrentPageTasks() => AllTasks = await TaskService.GetTasksAsync(CreateFilter());
+    private async Task LoadCurrentPageTasks() => _allTasks = await TaskService.GetTasksAsync(CreateFilter());
 
     private async Task AddTask()
     {
-        NewTask.TimeSpent = TimeSpan.FromHours(new Random().Next(1, 5));
-        var createdTask = await TaskService.AddTask(NewTask);
-        NewTask = new TaskDto();
+        _newTask.TimeSpent = TimeSpan.FromHours(new Random().Next(1, 5));
+        var createdTask = await TaskService.AddTaskAsync(_newTask);
+        _newTask = new TaskDto();
         await LoadCurrentPageTasks();
     }
 
     private async Task DeleteTask(TaskDto task)
     {
         Console.WriteLine($"Delete task: {task.Id}");
-        await TaskService.DeleteTask(task.Id);
+        await TaskService.DeleteTaskAsync(task.Id);
         await LoadCurrentPageTasks();
     }
 
     private async Task UpdateTask(TaskDto task)
     {
-        TaskDto updated = await TaskService.UpdateTask(task);
+        TaskDto updated = await TaskService.UpdateTaskAsync(task);
         await LoadCurrentPageTasks();
     }
 

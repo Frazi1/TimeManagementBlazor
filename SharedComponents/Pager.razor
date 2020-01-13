@@ -1,7 +1,11 @@
+@using System
+@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Components
 <div>
 @foreach (int pageNumber in DisplayPages)
 {
-    <span @onclick="(() => SetCurrentPage(pageNumber))"
+    <span @onclick="(() => CurrentPage = pageNumber)"
           class="@(CurrentPage == pageNumber ? "font-weight-bold" : "")">
         @pageNumber
     </span>
@@ -43,6 +47,4 @@
     private IEnumerable<int> DisplayPages => Enumerable.Range(
         Math.Max(MinPage, CurrentPage - DisplayPagesNumber),
         Math.Min(PagesCount, CurrentPage + DisplayPagesNumber));
-
-    private void SetCurrentPage(int page) => CurrentPage = page;
 }

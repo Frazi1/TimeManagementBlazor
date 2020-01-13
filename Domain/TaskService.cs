@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
@@ -21,35 +20,27 @@ namespace Domain
         {
             return new TaskDto
             {
-                    Id = dbTask.Id,
-                    Name = dbTask.Name,
-                    CreatedAt = dbTask.CreatedAt,
-                    IsCompleted = dbTask.IsCompleted,
-                    TimeSpent = dbTask.TimeSpent
+                Id = dbTask.Id,
+                Name = dbTask.Name,
+                CreatedAt = dbTask.CreatedAt,
+                IsCompleted = dbTask.IsCompleted,
+                TimeSpent = dbTask.TimeSpent
             };
         }
-
-        public Task<List<TaskDto>> GetAllTasksAsync()
-        {
-            List<TaskDto> list = DbContext.Tasks
-                .Select(ToTaskDto)
-                .ToList();
-            return Task.FromResult(list);
-        }
-
+        
         public async Task<PagedList<TaskDto>> GetTasksAsync(Filter filter)
         {
             var dbList = await DbContext.Tasks
                 .ApplyPagination(filter)
                 .ToListAsync();
+        
             var dtoList = dbList.Select(ToTaskDto).ToList();
-
             int allItemsCount = await DbContext.Tasks.CountAsync();
-            
+
             return new PagedList<TaskDto>(allItemsCount, dtoList);
         }
 
-        public Task<TaskDto> AddTask(TaskDto dto)
+        public async Task<TaskDto> AddTaskAsync(TaskDto dto)
         {
             var dbTask = new DbTask
             {
@@ -60,34 +51,35 @@ namespace Domain
             };
 
             DbContext.Tasks.Add(dbTask);
-            DbContext.SaveChanges();
-            return Task.FromResult(ToTaskDto(dbTask));
+            await DbContext.SaveChangesAsync();
+            
+            return ToTaskDto(dbTask);
         }
 
-        public Task DeleteTask(int id)
+        public async Task DeleteTaskAsync(int id)
         {
-            DbTask dbTask = FindTaskById(id);
+            DbTask dbTask = await FindTaskByIdAsync(id);
             DbContext.Remove(dbTask);
-            DbContext.SaveChanges();
-            return Task.CompletedTask;
+            
+            await DbContext.SaveChangesAsync();
         }
 
-        private DbTask FindTaskById(int id)
+        private async Task<DbTask> FindTaskByIdAsync(int id)
         {
-            return DbContext.Tasks.First(t => t.Id == id);
+            return await DbContext.Tasks.FirstAsync(t => t.Id == id);
         }
 
-        public Task<TaskDto> UpdateTask(TaskDto dto)
+        public async Task<TaskDto> UpdateTaskAsync(TaskDto dto)
         {
-            var dbTask = FindTaskById(dto.Id);
+            var dbTask = await FindTaskByIdAsync(dto.Id);
 
             dbTask.IsCompleted = dto.IsCompleted;
             dbTask.Name = dto.Name;
             dbTask.TimeSpent = dto.TimeSpent;
 
-            DbContext.SaveChanges();
+            await DbContext.SaveChangesAsync();
 
-            return Task.FromResult(ToTaskDto(dbTask));
+            return ToTaskDto(dbTask);
         }
     }
 }

@@ -10,28 +10,25 @@ namespace TimeManagement.Controlllers
     [Route("api/[controller]")]
     public class TasksController : ControllerBase
     {
-        private readonly ITaskService taskService;
+        private readonly ITaskService _taskService;
 
         public TasksController(ITaskService taskService)
         {
-            this.taskService = taskService;
+            _taskService = taskService;
         }
-
-        [HttpGet]
-        public async Task<List<TaskDto>> Get() => await taskService.GetAllTasksAsync();
 
         [HttpGet("filter")]
         public async Task<PagedList<TaskDto>> Get([ModelBinder(typeof(FilterModelBinder))] Filter filter)
-            => await taskService.GetTasksAsync(filter);
+            => await _taskService.GetTasksAsync(filter);
 
         [HttpPost]
-        public async Task<TaskDto> AddTask(TaskDto dto) => await taskService.AddTask(dto);
+        public async Task<TaskDto> AddTask(TaskDto dto) => await _taskService.AddTaskAsync(dto);
 
         [Route("{id}")]
         [HttpDelete]
-        public async Task DeleteTask(int id) => await taskService.DeleteTask(id);
+        public async Task DeleteTask(int id) => await _taskService.DeleteTaskAsync(id);
 
         [HttpPut]
-        public async Task<TaskDto> UpdateTask(TaskDto dto) => await taskService.UpdateTask(dto);
+        public async Task<TaskDto> UpdateTask(TaskDto dto) => await _taskService.UpdateTaskAsync(dto);
     }
 }

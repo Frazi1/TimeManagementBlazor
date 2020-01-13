@@ -10,6 +10,7 @@ namespace Domain
         public PagedList()
         {
         }
+        
         public PagedList(int allItemsCount, List<T> items)
         {
             AllItemsCount = allItemsCount;
