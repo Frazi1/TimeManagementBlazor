@@ -3,17 +3,20 @@
 @using System.Linq
 @using Microsoft.AspNetCore.Components
 <div>
-@foreach (int pageNumber in DisplayPages)
-{
-    <span @onclick="(() => CurrentPage = pageNumber)"
-          class="@(CurrentPage == pageNumber ? "font-weight-bold" : "")">
-        @pageNumber
-    </span>
-    @if (pageNumber != DisplayPages.Last())
+    @foreach (int pageNumber in DisplayPages)
     {
-        <span>,</span>
+        <span @onclick="(() => CurrentPage = pageNumber)"
+               class="@(CurrentPage == pageNumber ? "font-weight-bold" : "")">
+            @pageNumber
+        </span>
+        @if (pageNumber != DisplayPages.Last())
+        {
+            <span>,</span>
+        }
     }
-}
+</div>
+<div>
+    <input placeholder="Page size" type="number" @bind="@PageSize" min="1"/>
 </div>
 
 @code {
@@ -23,28 +26,46 @@
     [Parameter]
     public int Count { get; set; }
 
+    private int _pageSize;
+
     [Parameter]
-    public int PageSize { get; set; }
+    public int PageSize
+    {
+        get => _pageSize;
+        set
+        {
+            if (value == _pageSize) return;
+            _pageSize = value;
+            OnPageSizeChange.InvokeAsync(value);
+
+            CurrentPage = MinPage;
+        }
+    }
 
     private int _currentPage = MinPage;
-    
+
     [Parameter]
     public int CurrentPage
     {
         get => _currentPage;
         set
         {
+            if (value == _currentPage) return;
             _currentPage = value;
             OnPageChange.InvokeAsync(value);
-        } 
+        }
     }
 
     [Parameter]
     public EventCallback<int> OnPageChange { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnPageSizeChange { get; set; }
 
     public int PagesCount => (int) Math.Ceiling((double) Count / PageSize);
 
     private IEnumerable<int> DisplayPages => Enumerable.Range(
         Math.Max(MinPage, CurrentPage - DisplayPagesNumber),
         Math.Min(PagesCount, CurrentPage + DisplayPagesNumber));
+
 }

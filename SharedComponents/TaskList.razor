@@ -39,7 +39,9 @@
             }
             </tbody>
         </table>
-        <Pager Count="@_allTasks.AllItemsCount" PageSize="@_pageSize" OnPageChange="(async page => await OnPageChange(page))" />
+        <Pager Count="@_allTasks.AllItemsCount" PageSize="@_pageSize"
+               OnPageChange="(async page => await OnPageChange(page))"
+               OnPageSizeChange="(async size => await OnPageSizeChange(size))" />
     }
 </div>
 
@@ -84,6 +86,12 @@
     private async Task OnPageChange(int page)
     {
         _currentPage = page;
+        await LoadCurrentPageTasks();
+    }
+
+    private async Task OnPageSizeChange(int size)
+    {
+        _pageSize = size;
         await LoadCurrentPageTasks();
     }
 }
