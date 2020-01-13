@@ -39,7 +39,7 @@ namespace TimeManagement
             services.AddTransient<ITaskService, TaskService>();
             services.AddDbContext<TimeManagementDbContext>(opt =>
             {
-                opt.UseMySql("Server=localhost;Database=timemanagement;User=root;Password=1234;",
+                opt.UseMySql(Configuration.GetConnectionString("TimeManagementDb"),
                     mySqlOptions =>
                         mySqlOptions.ServerVersion(new ServerVersion(new Version(5, 7, 18), ServerType.MySql)));
             }, ServiceLifetime.Transient);

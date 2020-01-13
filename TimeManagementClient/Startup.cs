@@ -5,6 +5,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace TimeManagementClient
 {
