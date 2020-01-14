@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -26,9 +25,31 @@ namespace TimeManagement.Controlllers
 
         [Route("{id}")]
         [HttpDelete]
-        public async Task DeleteTask(int id) => await _taskService.DeleteTaskAsync(id);
+        public async Task<IActionResult> DeleteTask(int id)
+        {
+            try
+            {
+                await _taskService.DeleteTaskAsync(id);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return NotFound($"Entity with id {e.Id} is not found");
+            }
+
+            return NoContent();
+        }
 
         [HttpPut]
-        public async Task<TaskDto> UpdateTask(TaskDto dto) => await _taskService.UpdateTaskAsync(dto);
+        public async Task<IActionResult> UpdateTask(TaskDto dto)
+        {
+            try
+            {
+                return new OkObjectResult(await _taskService.UpdateTaskAsync(dto));
+            }
+            catch (EntityNotFoundException e)
+            {
+                return NotFound($"Entity with id {e.Id} is not found");
+            }
+        }
     }
 }

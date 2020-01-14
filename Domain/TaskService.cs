@@ -66,7 +66,8 @@ namespace Domain
 
         private async Task<DbTask> FindTaskByIdAsync(int id)
         {
-            return await DbContext.Tasks.FirstAsync(t => t.Id == id);
+            return await DbContext.Tasks.FirstOrDefaultAsync(t => t.Id == id)
+                   ?? throw new EntityNotFoundException<DbTask>(id);
         }
 
         public async Task<TaskDto> UpdateTaskAsync(TaskDto dto)
