@@ -78,6 +78,7 @@ namespace Domain
             dbTask.Name = dto.Name;
             dbTask.TimeSpent = dto.TimeSpent;
 
+            DbContext.Update(dbTask);
             await DbContext.SaveChangesAsync();
 
             return ToTaskDto(dbTask);

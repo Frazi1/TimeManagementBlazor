@@ -30,9 +30,10 @@
                     <td>@task.Name</td>
                     <td>@task.TimeSpent</td>
                     <td>
-                        <input type="checkbox" @value="@task.IsCompleted"/>
+                        <input type="checkbox" @bind=task.IsCompleted />
                     </td>
                     <td>
+                        <button @onclick="(async () => await UpdateTask(task))">Save</button>
                         <button @onclick="(async () => await DeleteTask(task))">Delete</button>
                     </td>
                 </tr>
