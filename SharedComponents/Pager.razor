@@ -3,6 +3,7 @@
 @using System.Linq
 @using Microsoft.AspNetCore.Components
 <div>
+    <button @onclick="(() => CurrentPage = MinPage)">First</button>
     @foreach (int pageNumber in DisplayPages)
     {
         <span @onclick="(() => CurrentPage = pageNumber)"
@@ -14,6 +15,7 @@
             <span>,</span>
         }
     }
+    <button @onclick="(() => CurrentPage = PagesCount)">Last</button>
 </div>
 <div>
     <input placeholder="Page size" type="number" @bind="@PageSize" min="1"/>
