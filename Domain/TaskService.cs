@@ -31,6 +31,7 @@ namespace Domain
         public async Task<PagedList<TaskDto>> GetTasksAsync(Filter filter)
         {
             var dbList = await DbContext.Tasks
+                .ApplySorting(filter)
                 .ApplyPagination(filter)
                 .ToListAsync();
         

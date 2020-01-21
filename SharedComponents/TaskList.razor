@@ -18,19 +18,25 @@
         <table>
             <thead>
             <tr>
-                <th>Task</th>
-                <th>Time spent</th>
-                <th>Completed</th>
+                <th @onclick="(async () => await SetSortingBy(nameof(TaskDto.Name)))">
+                    Task <span class="@(GetHeaderClass(nameof(TaskDto.Name)))"></span>
+                </th>
+                <th @onclick="(async () => await SetSortingBy(nameof(TaskDto.TimeSpent)))">
+                    Time spent <span class="@(GetHeaderClass(nameof(TaskDto.TimeSpent)))"></span>
+                </th>
+                <th @onclick="(async () => await SetSortingBy(nameof(TaskDto.IsCompleted)))">
+                    Completed <span class="@(GetHeaderClass(nameof(TaskDto.IsCompleted)))"></span>
+                </th>
             </tr>
             </thead>
             <tbody>
-            @foreach (var task in _allTasks.Items)
+            @foreach (var task in _allTasks)
             {
                 <tr>
                     <td>@task.Name</td>
                     <td>@task.TimeSpent</td>
                     <td>
-                        <input type="checkbox" @bind=task.IsCompleted />
+                        <input type="checkbox" @bind=task.IsCompleted/>
                     </td>
                     <td>
                         <button @onclick="(async () => await UpdateTask(task))">Save</button>
@@ -42,7 +48,7 @@
         </table>
         <Pager Count="@_allTasks.AllItemsCount" PageSize="@_pageSize"
                OnPageChange="(async page => await OnPageChange(page))"
-               OnPageSizeChange="(async size => await OnPageSizeChange(size))" />
+               OnPageSizeChange="(async size => await OnPageSizeChange(size))"/>
     }
 </div>
 
@@ -52,6 +58,7 @@
     private PagedList<TaskDto> _allTasks;
     private int _currentPage = 1;
     private int _pageSize = 5;
+    private PropertySorting _sorting;
 
     private ITaskService TaskService => (ITaskService) ScopedServices.GetService(typeof(ITaskService));
 
@@ -60,8 +67,24 @@
         await LoadCurrentPageTasks();
     }
 
-    private Filter CreateFilter() => new Filter((_currentPage - 1) * _pageSize, _pageSize);
-    private async Task LoadCurrentPageTasks() => _allTasks = await TaskService.GetTasksAsync(CreateFilter());
+    private string GetHeaderClass(string headerPropertyName)
+    {
+        if (_sorting == null || _sorting.PropertyName != headerPropertyName) return "";
+        if (_sorting.IsAscending) return "oi oi-arrow-top";
+        return "oi oi-arrow-bottom";
+    }
+
+    private Filter CreateFilter() => new Filter(
+        (_currentPage - 1) * _pageSize,
+        _pageSize,
+        _sorting != null ? new[] {_sorting} : null
+        );
+
+    private async Task LoadCurrentPageTasks()
+    {
+        _allTasks = await TaskService.GetTasksAsync(CreateFilter());
+        StateHasChanged();
+    }
 
     private async Task AddTask()
     {
@@ -93,6 +116,20 @@
     private async Task OnPageSizeChange(int size)
     {
         _pageSize = size;
+        await LoadCurrentPageTasks();
+    }
+
+    private async Task SetSortingBy(string propertyName)
+    {
+        if (_sorting == null || _sorting.PropertyName != propertyName)
+        {
+            _sorting = new PropertySorting(propertyName, true);
+        }
+        else if (_sorting != null && _sorting.PropertyName == propertyName)
+        {
+            if (_sorting.IsAscending) _sorting = new PropertySorting(propertyName, false);
+            else _sorting = null;
+        }
         await LoadCurrentPageTasks();
     }
 }
