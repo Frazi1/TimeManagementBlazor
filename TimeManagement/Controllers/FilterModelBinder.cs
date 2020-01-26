@@ -19,7 +19,7 @@ namespace Domain
             if (int.TryParse(take.FirstValue, out int takeValue) == false)
                 return Task.FromResult(false);
 
-            var sorting = orderBy.FirstValue.Split(",");
+            var sorting = orderBy.FirstValue?.Split(",") ?? Array.Empty<string>();
             PropertySorting propertySorting = null;
             if (sorting.Length == 2)
             {
