@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using DataAccess;
 using Domain;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
+using SharedComponents.Weather;
 using TimeManagement.Data;
 
 namespace TimeManagement
@@ -31,7 +33,8 @@ namespace TimeManagement
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddHttpClient();
+            
             services.AddControllers();
             services.AddRazorPages();
             services.AddServerSideBlazor();
@@ -44,9 +47,16 @@ namespace TimeManagement
                         mySqlOptions.ServerVersion(new ServerVersion(new Version(5, 7, 18), ServerType.MySql)));
             }, ServiceLifetime.Transient);
 
+            services.AddSingleton<IWeatherApi, WeatherApi>(provider =>
+            {
+                var factory = provider.GetRequiredService<IHttpClientFactory>();
+                string apiKey = Configuration["WeatherStackApiKey"];
+                return new WeatherApi(apiKey, factory.CreateClient());
+            });
+
             // services.AddMvc()
             //         .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
-                
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

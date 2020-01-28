@@ -1,0 +1,41 @@
+@using SharedComponents.Weather
+@inherits Microsoft.AspNetCore.Components.OwningComponentBase
+
+
+<input type="text" placeholder="City..." @bind="City" />
+<button @onclick="(async () => await LoadForecastAsync())">Загрузить</button>
+
+@if (Forecast != null)
+{
+    if (Forecast.IsSuccess)
+    {
+        <div>
+            Weather in @Forecast.City: @Forecast.Temperature, @Forecast.Description
+        </div>
+    }
+    else
+    {
+        <div>Произошла ошибка: @Forecast.ErrorMessage</div>
+    }
+}
+
+@code {
+    private WeatherForecast Forecast { get; set; }
+    private string City { get; set; }
+
+    private IWeatherApi WeatherApi => (IWeatherApi) ScopedServices.GetService(typeof(IWeatherApi));
+
+    private async Task LoadForecastAsync()
+    {
+        if (string.IsNullOrEmpty(City)) return;
+        Forecast = await WeatherApi.GetForecastAsync(City);
+        StateHasChanged();
+
+        Console.WriteLine($"Load weather: {Forecast.Description}");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadForecastAsync();
+    }
+}

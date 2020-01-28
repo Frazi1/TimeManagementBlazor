@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
+using SharedComponents.Weather;
 
 namespace TimeManagementClient
 {
@@ -45,6 +46,7 @@ namespace TimeManagementClient
             AddApiHttpClient(services);
 
             services.AddScoped<ITaskService, TasksService>();
+            services.AddScoped<IWeatherApi, WeatherApi>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)
